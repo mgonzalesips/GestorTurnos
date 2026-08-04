@@ -19,7 +19,7 @@ namespace GestorTurnos
 
         decimal CalcularPrecioTurno()
         {
-            return turnoTipo.ObtenerPrecio();
+            return turnoTipo.Precio;
         }
 
         public void Guardar()

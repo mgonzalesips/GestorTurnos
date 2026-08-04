@@ -7,6 +7,7 @@ namespace GestorTurnos
         public void ProcesarTurno(string nombrePaciente, string dni, string tipoTurno, string email)
         {
             Persona paciente = new Persona(nombrePaciente, dni, email);
+            TurnoTipo turnoTipo;
 
             if (Turno.ValidarPaciente(paciente) == false)
             {
@@ -14,7 +15,17 @@ namespace GestorTurnos
                 return;
             }
 
-            TurnoTipo turnoTipo = new TurnoTipo(tipoTurno);
+            switch (tipoTurno)
+            {
+                case "Normal":
+                    turnoTipo = new TurnoNormal();
+                    break;
+
+                default:
+                    Console.WriteLine("Error: Tipo de turno no valido.");
+                    return;
+            }
+
             Turno turno = new Turno(turnoTipo, paciente);
             turno.Guardar();
             turno.Notificar();
