@@ -1,43 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace GestorTurnos
 {
-    internal class Turno
+    public class Turno
     {
         int TurnoID;
-        DateTime fecha;
-        string TurnoTipo;
-        string nombrePaciente;
-        string dniPaciente;
-        string mailPaciente;
+        TurnoTipo turnoTipo;
+        Persona paciente;
 
-        public Turno(int turnoID, DateTime fecha, string turnoTipo, string nombrePaciente, string dniPaciente, string mailPaciente)
+        public Turno(TurnoTipo turnoTipo, Persona paciente)
         {
-            TurnoID = turnoID;
-            this.fecha = fecha;
-            TurnoTipo = turnoTipo;
-            this.nombrePaciente = nombrePaciente;
-            this.dniPaciente = dniPaciente;
-            this.mailPaciente = mailPaciente;
+            this.turnoTipo = turnoTipo;
+            this.paciente = paciente;
         }
 
-        public bool ValidarPaciente(string nombre, string dni, string email) 
+        decimal CalcularPrecioTurno()
         {
-            if (string.IsNullOrWhiteSpace(nombrePaciente))
+            return turnoTipo.ObtenerPrecio();
+        }
+
+        public void Guardar()
+        {
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("[BASE DE DATOS] Conectando a la base de datos...");
+            Console.WriteLine($"[BASE DE DATOS] Insertando turno: Paciente={paciente.Nombre}, DNI={paciente.Dni}, Tipo={turnoTipo.NombreTipo}, Precio=${CalcularPrecioTurno()}");
+            Console.WriteLine("[BASE DE DATOS] Turno guardado correctamente.");
+            Console.WriteLine("----------------------------------------------------");
+        }
+
+        public void Notificar()
+        {
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("[EMAIL] Conectando al servidor SMTP...");
+            Console.WriteLine($"[EMAIL] Enviando confirmación de turno a {paciente.Email}...");
+            Console.WriteLine("[EMAIL] Email enviado correctamente.");
+            Console.WriteLine("----------------------------------------------------");
+        }
+
+        public void MostrarComprobante()
+        {
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("           COMPROBANTE DE TURNO - CLÍNICA           ");
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine($"Paciente:   {paciente.Nombre}");
+            Console.WriteLine($"DNI:        {paciente.Dni}");
+            Console.WriteLine($"Email:      {paciente.Email}");
+            Console.WriteLine($"Tipo turno: {turnoTipo.NombreTipo}");
+            Console.WriteLine($"Precio:     ${CalcularPrecioTurno()}");
+            Console.WriteLine("----------------------------------------------------");
+        }
+
+        public static bool ValidarPaciente(Persona paciente)
+        {
+            if (string.IsNullOrWhiteSpace(paciente.Nombre))
             {
                 Console.WriteLine("Error: el nombre del paciente es obligatorio.");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(dni) || dni.Length < 7)
+            if (string.IsNullOrWhiteSpace(paciente.Dni) || paciente.Dni.Length < 7)
             {
                 Console.WriteLine("Error: el DNI ingresado no es válido.");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            if (string.IsNullOrWhiteSpace(paciente.Email) || !paciente.Email.Contains("@"))
             {
                 Console.WriteLine("Error: el email ingresado no es válido.");
                 return false;
@@ -45,29 +75,5 @@ namespace GestorTurnos
 
             return true;
         }
-
-        decimal CalcularPrecioTurno()
-        {
-            decimal precio;
-            switch (TurnoTipo)
-            {
-                case "Normal":
-                    precio = 5000;
-                    break;
-                case "Urgente":
-                    precio = 7500;
-                    break;
-                case "Seguimiento":
-                    precio = 3000;
-                    break;
-                default:
-                    Console.WriteLine("Error: tipo de turno desconocido.");
-                    return -1;
-            }
-
-            return precio;
-        }
-
-
     }
 }
