@@ -6,11 +6,4 @@ namespace GestorTurnos
     {
         void Notificar(Turno turno);
     }
-
-    // Principio de inversión de dependencias (DIP): abstracción de persistencia,
-    // GestorTurnos depende de esta interfaz y no del detalle de "cómo" se guarda.
-    public interface IRepositorioTurno
-    {
-        void Guardar(Turno turno);
-    }
 }

@@ -3,21 +3,19 @@ using System;
 namespace GestorTurnos
 {
     // Principio de inversión de dependencias (DIP): GestorTurnos (alto nivel) depende
-    // de las abstracciones INotificadorTurno / IRepositorioTurno, no de sus implementaciones
-    // concretas. Quien lo construye decide qué implementación usar.
+    // de la abstracción INotificadorTurno, no de sus implementaciones concretas.
+    // Quien lo construye decide qué implementación usar.
     public class GestorTurnos
     {
         private readonly INotificadorTurno notificador;
-        private readonly IRepositorioTurno repositorio;
 
-        public GestorTurnos(INotificadorTurno notificador, IRepositorioTurno repositorio)
+        public GestorTurnos(INotificadorTurno notificador)
         {
             this.notificador = notificador;
-            this.repositorio = repositorio;
         }
-
+        //sobrecargar de operadores en el constructor para permitir el uso de diferentes notificaciones
         public GestorTurnos()
-            : this(new NotificadorMultiple(new NotificadorEmailTurno(), new NotificadorSMS()), new RepositorioTurnoBaseDeDatos())
+            : this(new NotificadorMultiple(new NotificadorEmailTurno(), new NotificadorSMS()))
         {
         }
 
@@ -52,7 +50,6 @@ namespace GestorTurnos
             }
 
             Turno turno = new Turno(turnoTipo, paciente);
-            repositorio.Guardar(turno);
             notificador.Notificar(turno);
             turno.MostrarComprobante();
         }
