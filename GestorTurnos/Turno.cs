@@ -18,15 +18,6 @@ namespace GestorTurnos
             return TurnoTipo.Precio;
         }
 
-        public void Guardar()
-        {
-            Console.WriteLine("----------------------------------------------------");
-            Console.WriteLine("[BASE DE DATOS] Conectando a la base de datos...");
-            Console.WriteLine($"[BASE DE DATOS] Insertando turno: Paciente={Paciente.Nombre}, DNI={Paciente.Dni}, Tipo={TurnoTipo.NombreTipo}, Precio=${CalcularPrecioTurno()}");
-            Console.WriteLine("[BASE DE DATOS] Turno guardado correctamente.");
-            Console.WriteLine("----------------------------------------------------");
-        }
-
         public void MostrarComprobante()
         {
             Console.WriteLine("----------------------------------------------------");

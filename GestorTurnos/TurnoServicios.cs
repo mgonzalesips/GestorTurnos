@@ -44,4 +44,16 @@ namespace GestorTurnos
             }
         }
     }
+
+    public class RepositorioTurnoBaseDeDatos : IRepositorioTurno
+    {
+        public void Guardar(Turno turno)
+        {
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("[BASE DE DATOS] Conectando a la base de datos...");
+            Console.WriteLine($"[BASE DE DATOS] Insertando turno: Paciente={turno.Paciente.Nombre}, DNI={turno.Paciente.Dni}, Tipo={turno.TurnoTipo.NombreTipo}, Precio=${turno.CalcularPrecioTurno()}");
+            Console.WriteLine("[BASE DE DATOS] Turno guardado correctamente.");
+            Console.WriteLine("----------------------------------------------------");
+        }
+    }
 }
