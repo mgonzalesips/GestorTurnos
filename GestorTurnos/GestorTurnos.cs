@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 
 namespace GestorTurnos
 {
     public class GestorTurnos
     {
+        private readonly INotificadorTurno notificador = new NotificadorMultiple(new NotificadorEmailTurno(), new NotificadorSMS());
+
         public void ProcesarTurno(string nombrePaciente, string dni, string tipoTurno, string email)
         {
             Persona paciente = new Persona(nombrePaciente, dni, email);
@@ -21,6 +23,14 @@ namespace GestorTurnos
                     turnoTipo = new TurnoNormal();
                     break;
 
+                case "Urgente":
+                    turnoTipo = new TurnoUrgente();
+                    break;
+
+                case "Seguimiento":
+                    turnoTipo = new TurnoSeguimiento();
+                    break;
+
                 default:
                     Console.WriteLine("Error: Tipo de turno no valido.");
                     return;
@@ -28,7 +38,7 @@ namespace GestorTurnos
 
             Turno turno = new Turno(turnoTipo, paciente);
             turno.Guardar();
-            turno.Notificar();
+            notificador.Notificar(turno);
             turno.MostrarComprobante();
         }
     }

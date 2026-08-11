@@ -1,42 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+using System;
 
 namespace GestorTurnos
 {
     public class Turno
     {
-        int TurnoID;
-        TurnoTipo turnoTipo;
-        Persona paciente;
+        public TurnoTipo TurnoTipo { get; }
+        public Persona Paciente { get; }
 
         public Turno(TurnoTipo turnoTipo, Persona paciente)
         {
-            this.turnoTipo = turnoTipo;
-            this.paciente = paciente;
+            TurnoTipo = turnoTipo;
+            Paciente = paciente;
         }
 
-        decimal CalcularPrecioTurno()
+        public decimal CalcularPrecioTurno()
         {
-            return turnoTipo.Precio;
+            return TurnoTipo.Precio;
         }
 
         public void Guardar()
         {
             Console.WriteLine("----------------------------------------------------");
             Console.WriteLine("[BASE DE DATOS] Conectando a la base de datos...");
-            Console.WriteLine($"[BASE DE DATOS] Insertando turno: Paciente={paciente.Nombre}, DNI={paciente.Dni}, Tipo={turnoTipo.NombreTipo}, Precio=${CalcularPrecioTurno()}");
+            Console.WriteLine($"[BASE DE DATOS] Insertando turno: Paciente={Paciente.Nombre}, DNI={Paciente.Dni}, Tipo={TurnoTipo.NombreTipo}, Precio=${CalcularPrecioTurno()}");
             Console.WriteLine("[BASE DE DATOS] Turno guardado correctamente.");
-            Console.WriteLine("----------------------------------------------------");
-        }
-
-        public void Notificar()
-        {
-            Console.WriteLine("----------------------------------------------------");
-            Console.WriteLine("[EMAIL] Conectando al servidor SMTP...");
-            Console.WriteLine($"[EMAIL] Enviando confirmación de turno a {paciente.Email}...");
-            Console.WriteLine("[EMAIL] Email enviado correctamente.");
             Console.WriteLine("----------------------------------------------------");
         }
 
@@ -45,10 +32,10 @@ namespace GestorTurnos
             Console.WriteLine("----------------------------------------------------");
             Console.WriteLine("           COMPROBANTE DE TURNO - CLÍNICA           ");
             Console.WriteLine("----------------------------------------------------");
-            Console.WriteLine($"Paciente:   {paciente.Nombre}");
-            Console.WriteLine($"DNI:        {paciente.Dni}");
-            Console.WriteLine($"Email:      {paciente.Email}");
-            Console.WriteLine($"Tipo turno: {turnoTipo.NombreTipo}");
+            Console.WriteLine($"Paciente:   {Paciente.Nombre}");
+            Console.WriteLine($"DNI:        {Paciente.Dni}");
+            Console.WriteLine($"Email:      {Paciente.Email}");
+            Console.WriteLine($"Tipo turno: {TurnoTipo.NombreTipo}");
             Console.WriteLine($"Precio:     ${CalcularPrecioTurno()}");
             Console.WriteLine("----------------------------------------------------");
         }
